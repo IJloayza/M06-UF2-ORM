@@ -1,0 +1,8 @@
+com\iticbcn\loayzaignacio\Horari.class
+com\iticbcn\loayzaignacio\GestioDBHR.class
+com\iticbcn\loayzaignacio\HibernateUtil.class
+com\iticbcn\loayzaignacio\DAO\GenericDAO.class
+com\iticbcn\loayzaignacio\Companyia.class
+com\iticbcn\loayzaignacio\Std.class
+com\iticbcn\loayzaignacio\Trajecte.class
+com\iticbcn\loayzaignacio\Estacio.class

@@ -1,0 +1,72 @@
+@startuml name Renfe
+
+class Estacio {
+  -id : int
+  -Nom : string
+  +afegirTrajecte(trajecte: Trajecte) : void
+  +eliminarTrajecte(trajecte: Trajecte) : void
+  +obtenirTrajectes() : List<Trajecte>
+}
+
+class Tenir {
+  -idEstacio : int
+  -idTrajecte : int
+  +associetarEstacio(trajecte: Trajecte) : void
+  +desassociarEstacio() : void
+}
+
+class Trajecte {
+  -id : int
+  -id_EstOrigen : int
+  -id_EsDestí : int
+  -id_Horari : int
+  +obtenirHorari() : Horari
+  +assignarHorari(horari: Horari) : void
+  +afegirRecorregut(rec: Recorregut) : void
+  +obtenirRecorreguts() : List<Recorregut>
+}
+
+class Horari {
+  -id : int
+  -hora_Sortida : string
+  -hora_Arribada : string
+  -data : string
+  +actualitzarHoraSortida(hora: string) : void
+  +actualitzarHoraArribada(hora: string) : void
+  +actualitzarData(data: string) : void
+}
+
+class Companyia {
+  -id : int
+  -Nom : string
+  +afegirRecorregut(rec: Recorregut) : void
+  +eliminarRecorregut(rec: Recorregut) : void
+  +obtenirRecorreguts() : List<Recorregut>
+}
+
+class Tren {
+  -id : int
+  -Nom : string
+  -Capacitat : int
+  +assignarRecorregut(rec: Recorregut) : void
+  +obtenirRecorreguts() : List<Recorregut>
+}
+
+class Recorregut {
+  -id : int
+  -id_Trajecte : int
+  -id_Companyia : int
+  -id_Tren : int
+  +assignarCompanyia(companyia: Companyia) : void
+  +assignarTren(tren: Tren) : void
+  +assignarTrajecte(trajecte: Trajecte) : void
+}
+
+Estacio "1" -- "0..N" Tenir : té
+Estacio "1" -- "0..N" Trajecte : és origen o destinació de
+Horari "1" -- "0..N" Trajecte : està associat amb
+Trajecte "1" -- "0..N" Recorregut : defineix
+Companyia "1" -- "0..N" Recorregut : posseeix
+Tren "1" -- "0..N" Recorregut : opera
+
+@enduml
