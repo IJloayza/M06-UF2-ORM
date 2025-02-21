@@ -44,9 +44,9 @@
         <!-- Ficheros de mapeo. Pueden combinarse-->
       
         <!-- Mapeo DENTRO DE LA CLASE -->
-        <mapping class="com.iticbcn.loayzaignacio.Companyia"/>
-        <mapping class="com.iticbcn.loayzaignacio.Estacio"/>
-        <mapping class="com.iticbcn.loayzaignacio.Trajecte"/>
+        <mapping class="com.iticbcn.loayzaignacio.Classes.Companyia"/>
+        <mapping class="com.iticbcn.loayzaignacio.Classes.Estacio"/>
+        <mapping class="com.iticbcn.loayzaignacio.Classes.Trajecte"/>
         <mapping resource="horari.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

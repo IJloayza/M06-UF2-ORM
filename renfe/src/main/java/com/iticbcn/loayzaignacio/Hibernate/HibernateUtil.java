@@ -1,4 +1,4 @@
-package com.iticbcn.loayzaignacio;
+package com.iticbcn.loayzaignacio.Hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

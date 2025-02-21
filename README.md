@@ -150,3 +150,169 @@ Estació: AVE Numero de Trajectes: 2
 ```
 
 En aquest cas he decidit fer servir un grou by per veure quants trajectes son de quina companyia, aixó serveix per veure que tots els trajectes estan assignats per debugging i fer modificacions necessaries ja que una companyia potser creada sense trajectes i després assignar un trajecte creat a una companyia o companyies
+
+## Questionari Segona Part
+
+De quina lògica d’aplicació s’encarrega el Patró DAO?
+
+El patró DAO s'encarrega de la lògica d'access a dades separant la lògica de negoci.
+
+Per què considereu què és útil el patró DAO i en què us ha servit?
+
+El patró DAO m'ha semblat molt útil per la configuració de l'access a dades quan es tracta d'escalabilitat i la correcta encapsulació del codi a mès de la facilitat per llegir al codi main, ja que la majoria del codi es troba als methods i és bastant llegible.
+
+Heu hagut de fer cap ajust al vostre codi d’aplicació (Main, Controladors, Vistes, altres classes que no siguin DAO, etc.) ? Si és així, detalleu de forma breu quins canvis heu fet i per què?
+
+Els canvis mès significatius han sigut al main perquè hi tenia la majoria de l'ús dels controladors, aquesta ha sigut completament canviada donant origen a 4 classes que es troban el package CRUD que gestiona les necessitats de cada class per poder fer el CRUD en la seva respectiva taula, a més de la creació de 4 DAO's que heredan del DAO generic per millor escalabilitat de codi.
+
+D’igual forma que s’ha fet a l’enunciat, completeu el diagrama de classes de l’activitat A01 de la UF2 incorporant les interfícies, la classe abstracta i els DAOs. Per acoblar això, cal que relacioneu cada classe del model amb el seu DAO 
+
+```mermaid
+classDiagram
+direction BT
+    class Companyia {
+	    String name
+	    int id
+	    Set~Trajecte~ trajectescom
+	    + toString() String
+    }
+
+    class CompanyiaCRUD {
+	    + mostrarCompanyies() void
+	    + canviaCompanyia() void
+	    + creaCompanyia() void
+	    + eliminarCompanyia() void
+	    + afegirCompanyia() Set~Companyia~
+    }
+
+    class Estacio {
+	    Set~Trajecte~ trajectesOrigen
+	    String name
+	    Set~Trajecte~ trajectesDesti
+	    int idEstacio
+	    + toString() String
+	    - preRemove() void
+    }
+
+    class EstacioCRUD {
+	    + mostrarEstacions() void
+	    + creaEstacio() void
+	    + canviaEstacio() void
+	    + eliminarEstacio() void
+    }
+
+    class EstacioDAO {
+    }
+
+    class GenericDAO~T~ {
+	    + save(T) void
+	    + update(T) void
+	    + findById(int) T
+	    + endSession() void
+	    + groupComp() List~Object[]~
+	    + delete(T) void
+	    + findByName(String) T
+	    + findAll() List~T~
+    }
+
+    class GenericInterfaceDAO~T~ {
+	    + save(T) void
+	    + update(T) void
+	    + delete(T) void
+	    + findById(int) T
+	    + findAll() List~T~
+    }
+
+    class GestioDBHR {
+	    - printScreen(Terminal, String) void
+	    + MenuSelect() void
+	    + demanaHora() LocalTime?
+	    + MenuDelete() void
+	    + MenuUpdate() void
+	    + MenuShowCompWithTrajects() void
+	    + main(String[]) void
+	    + MenuOptions() void
+	    + MenuInsert() void
+    }
+
+    class HibernateUtil {
+	    SessionFactory sessionFactory
+	    - buildSessionFactory() SessionFactory
+    }
+
+    class Horari {
+	    Trajecte trajecte
+	    String hourDepart
+	    String hourArribe
+	    int idHorari
+	    + toString() String
+    }
+
+    class HorariCRUD {
+	    + creaHorari() void
+	    + canviaHorari() void
+	    + afegirHorari() Set~Horari~
+	    + eliminarHorari() void
+	    + mostrarHoraris() void
+    }
+
+    class HorariDAO {
+    }
+
+    class Std {
+	    + readLine() String
+    }
+
+    class Trajecte {
+	    Estacio estDesti
+	    int id
+	    Set~Companyia~ companyies
+	    Estacio estOrigen
+	    Set~Horari~ horaris
+	    - preRemove() void
+	    + toString() String
+    }
+
+    class TrajecteCRUD {
+	    + eliminarTrajecte() void
+	    + mostrarTrajectes() void
+	    + creaTrajecte() void
+	    + trajecteDisponible() boolean
+	    + canviaTrajecte() void
+	    + afegirTrajecte() Set~Trajecte~
+    }
+
+    class TrajecteDAO {
+    }
+
+    class CompanyiaDAO {
+    }
+
+	<<Interface>> GenericInterfaceDAO
+
+    CompanyiaDAO ..> GenericDAO
+    EstacioDAO ..> GenericDAO
+    GenericDAO --|> GenericInterfaceDAO
+    HorariDAO ..> GenericDAO
+    TrajecteDAO ..> GenericDAO
+
+    GestioDBHR --> CompanyiaCRUD 
+    GestioDBHR --> EstacioCRUD
+    GestioDBHR --> TrajecteCRUD 
+    GestioDBHR --> HorariCRUD  
+
+    CompanyiaCRUD --> CompanyiaDAO
+    EstacioCRUD --> EstacioDAO
+    TrajecteCRUD --> TrajecteDAO
+    HorariCRUD --> HorariDAO
+
+    CompanyiaCRUD --> Companyia
+    EstacioCRUD --> Estacio
+    TrajecteCRUD --> Trajecte
+    HorariCRUD --> Horari
+    
+```
+
+Per últim valoreu el paper que hi juga la classe abstracta. És en tots els casos necessària? En el cas de l’activitat A02 de la UF2, on vau emprar JDBC, penseu que seria d’utilitat? 
+
+En aquest cas és necessària ja que ajuda a segregar els casos utilitzats per cada DAO i fer escalable l'aplicació per tenir tant methods generals com especifics. Per l'activitat A02 hauria sigut una millora considerable per la gestió de les ordres sql i per encapsular el codi de millor forma. 

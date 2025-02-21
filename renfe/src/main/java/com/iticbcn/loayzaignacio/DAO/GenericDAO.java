@@ -14,7 +14,7 @@ import org.hibernate.TransientPropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.JDBCConnectionException;
 
-public class GenericDAO<T> {
+public abstract class GenericDAO<T> implements GenericInterfaceDAO<T> {
     private Class<T> entityClass;
     private static Session session;
 
@@ -36,6 +36,7 @@ public class GenericDAO<T> {
             session.persist(entity);
             tx.commit();
             System.out.println(entity.getClass().getSimpleName() + " afegida a la base de dades: " + entity);
+            // Algunes Exceptions per fer el debugging
         } catch (ConstraintViolationException e) {
             System.err.println("Violación de restricción en la base de datos: " + e.getMessage());
         } catch (PropertyValueException e) {
@@ -52,6 +53,7 @@ public class GenericDAO<T> {
         }
     }
 
+    @Override
     public void update(T entity) {
         Transaction tx = null;
         try{
@@ -86,7 +88,6 @@ public class GenericDAO<T> {
         Query<T> q = session.createQuery("FROM " + entityClass.getSimpleName() + " WHERE name = :nom", entityClass);
         q.setParameter("nom", name);
         return q.uniqueResult();
-        
     }
 
     public List<T> findAll() {

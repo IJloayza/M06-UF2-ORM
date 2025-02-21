@@ -1,4 +1,4 @@
-package com.iticbcn.loayzaignacio;
+package com.iticbcn.loayzaignacio.Classes;
 
 import java.io.Serializable;
 

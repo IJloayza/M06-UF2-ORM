@@ -1,4 +1,4 @@
-package com.iticbcn.loayzaignacio;
+package com.iticbcn.loayzaignacio.Classes;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -30,7 +30,7 @@ public class Companyia implements Serializable{
     //Companyia posseix molts trajectes
     @ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE},fetch=FetchType.EAGER)
     @JoinTable(name="CompanyiaTrajecte",
-    joinColumns = { @JoinColumn(name="Company",foreignKey = @ForeignKey(name="FK_COM_TRA")) },
+    joinColumns = @JoinColumn(name="Company",foreignKey = @ForeignKey(name="FK_COM_TRA")),
     inverseJoinColumns = { @JoinColumn(name="Trajecte",foreignKey = @ForeignKey(name="FK_TRA_COM")) })
     private Set<Trajecte> trajectescom = new HashSet<>();
 
